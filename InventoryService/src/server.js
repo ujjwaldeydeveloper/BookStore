@@ -133,4 +133,4 @@ app.get('/api/search', async (req, res) => {
 });
 
 // Start the server
-app.listen(3001, () => console.log("Inventory Service running on port 3001"));
+app.listen(3002, () => console.log("Inventory Service running on port 3002"));

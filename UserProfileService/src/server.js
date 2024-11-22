@@ -8,7 +8,7 @@ app.use(express.json())
 app.use(cookieParser());
 
 connectDB();
-const PORT = 5001
+const PORT = 3001
 const server = app.listen(PORT, () => console.log(`Server Connected to port ${PORT}`))
 
 // registerUser end point (user authentication)

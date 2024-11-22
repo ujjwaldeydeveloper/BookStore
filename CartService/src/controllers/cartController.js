@@ -6,9 +6,9 @@ exports.addToCart = async (req, res) => {
   
 
   try {
-    const bookResponse = await axios.get(`http://localhost:3002/books/${bookId}`);
-    const book = bookResponse.data;
-
+    const bookResponse = await axios.get(`http://localhost:3002/api/books/${bookId}`);
+    // const book = bookResponse.data;
+    console.log(bookResponse.data);
     let cart = await Cart.findOne({ username });
     if (!cart) {
       cart = new Cart({ username, items: [{bookId, quantity}] });
