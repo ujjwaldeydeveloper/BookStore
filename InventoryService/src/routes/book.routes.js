@@ -3,6 +3,7 @@ const Book = require('../models/book.model');
 
 const router = express.Router();
 
+
 router.post('/', async (req, res) => {
     try {
         const book = new Book(req.body);
@@ -13,9 +14,9 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:bookId', async (req, res) => {
     try {
-        const book = await Book.findById(req.params.id);
+        const book = await Book.findById(req.params.bookId);
         if (book) res.json(book);
         else res.status(404).send('Book not found');
     } catch (err) {
@@ -23,7 +24,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:bookId', async (req, res) => {
     try {
         const updatedBook = await Book.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (updatedBook) res.json(updatedBook);

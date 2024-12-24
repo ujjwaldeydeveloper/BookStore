@@ -4,10 +4,27 @@ const Book = require('./db/BookDB'); // Import the Book model from BookDB.js
 const applyMiddleware = require('./config/middleware'); // Import middleware.js
 const verifyToken = require('./auth/authMiddleware'); // Import the auth middleware
 
+const amqp = require('amqplib/callback_api');
 const app = express();
 
 // Apply middleware
 applyMiddleware(app);
+
+let bookStatus ;
+amqp.connect('amqp://localhost', function (err, conn) {
+    conn.createChannel(function (err, ch) {
+        const queue = 'message_queue';
+
+        ch.assertQueue(queue, { durable: false });
+        console.log(`Waiting for messages in ${queue}`);
+
+        ch.consume(queue, function (msg) {
+            console.log(`Received '${msg.content.toString()}' from ${queue}`);
+            bookStatus = msg.content.toString()
+            // res.send(data)
+        }, { noAck: true });
+    });
+});
 
 // Route to add a new book
 app.post('/api/books', verifyToken, async (req, res) => {
@@ -51,16 +68,19 @@ app.get('/api/books', verifyToken, async (req, res) => {
 });
 
 // Route to get a book by ID
-app.get('/api/books/:id', verifyToken, async (req, res) => {
-  const { id } = req.params;
+app.get('/api/books/:bookId', verifyToken, async (req, res) => {
+  const { bookId } = req.params;
 
   try {
-    const book = await Book.findById(id);
+    const book = await Book.find({bookId: bookId});
+    console.log(book);
+    console.log(bookId);
     if (!book) {
       return res.status(404).send('Book not found');
     }
     res.status(200).send(book);
   } catch (error) {
+    console.error('Error fetching book:', error);
     res.status(500).send(error);
   }
 });

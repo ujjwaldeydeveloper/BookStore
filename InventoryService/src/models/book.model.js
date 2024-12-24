@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const bookSchema = new mongoose.Schema({
+    bookStatus: { type: String, required: true, default: 'available' },
     bookId: { type: String, required: true, default: () => Math.floor(Math.random() * 1000000).toString() },
     quantity: { type: Number, required: true, default: 10 },
     title: { type: String, required: true },

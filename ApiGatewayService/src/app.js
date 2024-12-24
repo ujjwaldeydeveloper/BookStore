@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 // Routes to other services
 app.use('/userProfile', (req, res) => proxy.web(req, res, { target: 'http://localhost:3001/api' }));
 app.use('/inventoryService', (req, res) => proxy.web(req, res, { target: 'http://localhost:3002' }));
-app.use('/cart', (req, res) => proxy.web(req, res, { target: 'http://localhost:3003/cart' }));
+app.use('/cartService', (req, res) => proxy.web(req, res, { target: 'http://localhost:3003/api/cart' }));
 
 // Handle 404 errors
 app.use((req, res) => {

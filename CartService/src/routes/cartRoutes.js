@@ -5,11 +5,13 @@ const {
   deleteCartItem,
   clearCart,
   checkout,
+  viewCart,
 } = require("../controllers/cartController.js");
 
 router.post("/add", addToCart);
 router.post("/delete", deleteCartItem);
-router.post("/clear", clearCart);
-router.post("/checkout", checkout);
+router.post("/clear/:username", clearCart);
+router.post("/checkout/:username", checkout);
+router.get("/view/:username", viewCart);
 
 module.exports = router;
